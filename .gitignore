@@ -1,6 +1,4 @@
 .eslintrc
-babel.config.js
-package.json
 package-lock.json
 .exercism
 node_modules/
