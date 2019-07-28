@@ -1,8 +1,16 @@
-//
-// This is only a SKELETON file for the 'RNA Transcription' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
+export const complementPairs = [
+  ["G", "C"],
+  ["C", "G"],
+  ["T", "A"],
+  ["A", "U"],
+];
 
-export const toRna = () => {
-  throw new Error("Remove this statement and implement this function");
+export const complementMap = new Map(complementPairs);
+
+export const toComplement = nucleotide => complementMap.get(nucleotide);
+
+export const toRna = (strand) => {
+  return strand.split("")
+               .map(nucleotide => toComplement(nucleotide))
+               .join("");
 };
