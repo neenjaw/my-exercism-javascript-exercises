@@ -1,3 +1,5 @@
+import Chain from './chain';
+
 /*
 
 Earth: orbital period 365.25 Earth days, or 31557600 seconds
@@ -31,10 +33,14 @@ const SECONDS_PER_ORBITAL_PERIOD = SECONDS_PER_MINUTE * MINUTES_PER_HOUR * HOURS
 
 const convertSecondsToYears = (seconds) => seconds / SECONDS_PER_ORBITAL_PERIOD;
 
-const convertToPlanetYears = (planet, earthYears) => earthYears / yearsRelativeToEarthYears[planet];
+const convertToPlanetYears = (earthYears, planet) => earthYears / yearsRelativeToEarthYears[planet];
 
 const roundToPrecision = (number, places) => Number(Math.round(number + 'e'+places) + 'e-'+places);
 
 export const age = (planet, earthAgeInSeconds) => {
-  return roundToPrecision(convertToPlanetYears(planet, convertSecondsToYears(earthAgeInSeconds)), 2);
+  return new Chain(earthAgeInSeconds)
+              .chain(convertSecondsToYears)
+              .chain(convertToPlanetYears, planet)
+              .chain(roundToPrecision, 2)
+              .value;
 };
