@@ -3,15 +3,12 @@ import { strict } from "assert";
 const isLetter = (char) => char.match(/[a-z]/i)
 
 export const isPangram = (candidateString) => {
-  const letterMap = candidateString
-                      .split("")
-                      .reduce((map, char) => {
-                        if (isLetter(char)) {
-                          map.set(char.toLowerCase(), true);
-                        }
+  const candidateLetters = candidateString
+                            .toLowerCase()
+                            .split("")
+                            .filter(isLetter);
 
-                        return map;
-                      }, new Map());
+  const letterSet = new Set(candidateLetters);
 
-  return letterMap.size == 26
+  return letterSet.size == 26
 };
