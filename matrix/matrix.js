@@ -7,24 +7,21 @@ export class Matrix {
   //   '\n' demarcates new row,
   //   ' ' demarcates new column
   constructor(stringifiedMatrix) {
-    this.matrix = stringifiedMatrix
-                    .split('\n')
-                    .map(r => {
-                      return r.split(' ')
-                              .map(c => Number(c))
-                    });
+    this.data = stringifiedMatrix
+                  .split('\n')
+                  .map(r => r.split(' ').map(c => Number(c)));
   }
 
   get rows() {
-    return this.matrix;
+    return this.data;
   }
 
   get columns() {
-    return this.transposeMatrix();
+    return transposeMatrix(this);
   }
+}
 
-  transposeMatrix() {
-    return this.matrix[0]
-               .map((_,c) => this.matrix.map(row => row[c]));
-  }
+function transposeMatrix(matrix) {
+  return matrix.data[0]
+               .map((_,c) => matrix.data.map(row => row[c]));
 }
