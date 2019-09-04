@@ -1,18 +1,30 @@
 //
-// This is only a SKELETON file for the 'Matrix' exercise. It's been provided as a
-// convenience to get you started writing code faster.
+// Matrix class describing a matrix and matrix operations.
 //
 
 export class Matrix {
-  constructor() {
-    throw new Error("Remove this statement and implement this function");
+  // Constructor, accepts a stringified matrix
+  //   '\n' demarcates new row,
+  //   ' ' demarcates new column
+  constructor(stringifiedMatrix) {
+    this.matrix = stringifiedMatrix
+                    .split('\n')
+                    .map(r => {
+                      return r.split(' ')
+                              .map(c => Number(c))
+                    });
   }
 
   get rows() {
-    throw new Error("Remove this statement and implement this function");
+    return this.matrix;
   }
 
   get columns() {
-    throw new Error("Remove this statement and implement this function");
+    return this.transposeMatrix();
+  }
+
+  transposeMatrix() {
+    return this.matrix[0]
+               .map((_,c) => this.matrix.map(row => row[c]));
   }
 }
