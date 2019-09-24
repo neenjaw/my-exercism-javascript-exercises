@@ -1,4 +1,3 @@
-exercism download --exercise=leap --track=javascript
 exercism download --exercise=reverse-string --track=javascript
 exercism download --exercise=triangle --track=javascript
 exercism download --exercise=collatz-conjecture --track=javascript

@@ -1,18 +1,37 @@
-//
-// This is only a SKELETON file for the 'Pascals Triangle' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
-
+// Triangle is a class representing pascal's triangle, the constructor
+// taking a natural number to determine how many rows to compute.
 export class Triangle {
-  constructor() {
-    throw new Error("Remove this statement and implement this function");
+  constructor(rowsToCompute) {
+    this.data = makeRows(rowsToCompute)
   }
 
   get lastRow() {
-    throw new Error("Remove this statement and implement this function");
+    return this.data[this.data.length - 1];
   }
 
   get rows() {
-    throw new Error("Remove this statement and implement this function");
+    return this.data;
   }
+}
+
+// Compute 'n' rows of pascals triangle.
+// For each row, take the previous row, buffer it with zeros then
+// calculate the next row finally adding it to the list of rows.
+const makeRows = n => {
+  const rows = [[1]];
+
+  while (n > 1) {
+    const buildFrom = [0, ...rows[rows.length - 1], 0];
+    const newRow = [];
+
+    for (let i = 0; (i + 1) < buildFrom.length; i++) {
+      newRow.push(buildFrom[i] + buildFrom[i+1]);
+    }
+
+    rows.push(newRow);
+
+    n--;
+  }
+
+  return rows;
 }
