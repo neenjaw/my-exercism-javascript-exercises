@@ -1,6 +1,3 @@
-exercism download --exercise=etl --track=javascript
-exercism download --exercise=scrabble-score --track=javascript
-exercism download --exercise=raindrops --track=javascript
 exercism download --exercise=allergies --track=javascript
 exercism download --exercise=nucleotide-count --track=javascript
 exercism download --exercise=prime-factors --track=javascript
