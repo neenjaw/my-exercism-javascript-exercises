@@ -1,4 +1,3 @@
-exercism download --exercise=prime-factors --track=javascript
 exercism download --exercise=grains --track=javascript
 exercism download --exercise=perfect-numbers --track=javascript
 exercism download --exercise=word-count --track=javascript
