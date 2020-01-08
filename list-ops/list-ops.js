@@ -1,42 +1,60 @@
-//
-// This is only a SKELETON file for the 'List - Ops' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
-
 export class List {
-  constructor() {
-    throw new Error("Remove this statement and implement this function");
+  constructor(array = []) {
+    this.values = array;
   }
 
-  append() {
-    throw new Error("Remove this statement and implement this function");
+  append(list) {
+    return new List([...this.values, ...list.values]);
   }
 
-  concat() {
-    throw new Error("Remove this statement and implement this function");
+  concat(listOfLists) {
+    const values = [...this.values]
+    listOfLists.values.forEach(list => list.values.forEach(e => values.push(e)))
+    return new List(values)
   }
 
-  filter() {
-    throw new Error("Remove this statement and implement this function");
+  filter(f) {
+    const filterFunction = (acc, e) => {
+      if (f(e)) {
+        acc.push(e)
+      }
+      return acc
+    }
+
+    return new List(this.foldl(filterFunction, []))
   }
 
-  map() {
-    throw new Error("Remove this statement and implement this function");
+  map(f) {
+    const mapFunction = (acc, e) => {
+      acc.push(f(e))
+      return acc
+    }
+
+    return new List(this.foldl(mapFunction, []))
   }
 
   length() {
-    throw new Error("Remove this statement and implement this function");
+    return this.foldl(acc => ++acc, 0)
   }
 
-  foldl() {
-    throw new Error("Remove this statement and implement this function");
+  foldl(f, acc) {
+    const values = [...this.values]
+
+    values.forEach(e => acc = f(acc, e))
+
+    return acc;
   }
 
-  foldr() {
-    throw new Error("Remove this statement and implement this function");
+  foldr(f, acc) {
+    return this.reverse().foldl(f, acc)
   }
 
   reverse() {
-    throw new Error("Remove this statement and implement this function");
+    const pushElementToAcc = (acc, e) => {
+      acc.unshift(e)
+      return acc
+    }
+
+    return new List(this.foldl(pushElementToAcc, []))
   }
 }
