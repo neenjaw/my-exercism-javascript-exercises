@@ -9,15 +9,18 @@ export class List {
 
   concat(listOfLists) {
     const values = [...this.values]
-    listOfLists.values.forEach(list => list.values.forEach(e => values.push(e)))
-    return new List(values)
+
+    const doConcat = (acc, list) => {
+      return [...acc, ...list.values]
+    }
+
+    return new List(listOfLists.foldl(doConcat, values))
   }
 
   filter(f) {
     const filterFunction = (acc, e) => {
-      if (f(e)) {
-        acc.push(e)
-      }
+      if (f(e)) return [...acc, e]
+
       return acc
     }
 
@@ -26,8 +29,7 @@ export class List {
 
   map(f) {
     const mapFunction = (acc, e) => {
-      acc.push(f(e))
-      return acc
+      return [...acc, f(e)]
     }
 
     return new List(this.foldl(mapFunction, []))
@@ -38,11 +40,20 @@ export class List {
   }
 
   foldl(f, acc) {
-    const values = [...this.values]
+    let values = [...this.values]
+    if (acc === undefined) {
+      [acc, ...values] = values
+    }
 
-    values.forEach(e => acc = f(acc, e))
+    const doFold = (values, acc, f) => {
+      const [head, ...tail] = values
 
-    return acc;
+      return head ?
+        doFold(tail, f(acc, head), f) :
+        acc;
+    }
+
+    return doFold(values, acc, f);
   }
 
   foldr(f, acc) {
@@ -51,7 +62,7 @@ export class List {
 
   reverse() {
     const pushElementToAcc = (acc, e) => {
-      acc.unshift(e)
+      acc = [e, ...acc]
       return acc
     }
 
