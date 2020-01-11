@@ -1,5 +1,5 @@
-const TOTAL_NUMBER_OF_LETTERS = 26 * 26;
-const TOTAL_NUMBER_OF_NUMBERS = 10 * 10 * 10;
+const TOTAL_NAMES = 26 * 26 * 10 * 10 * 10
+const makeAlphabetArray = () => [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -7,37 +7,55 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-function getRandomLetters() {
-  const letterNumber = getRandomInt(0, TOTAL_NUMBER_OF_LETTERS)
-  const letterValues = [Math.floor(letterNumber/26)%26, letterNumber%26]
-  const [a, b] = letterValues.map(l => String.fromCharCode(l+65))
-
-  return `${a}${b}`
+function getRandomArrayIndex(arr) {
+  return getRandomInt(0, arr.length)
 }
 
-function getRandomNumbers() {
-  const number = getRandomInt(0, TOTAL_NUMBER_OF_NUMBERS)
-  return `${number}`.padStart(3, '0')
+class RobotNameFactory {
+  constructor() {
+    this.reset()
+  }
+
+  reset() {
+    this.names = []
+    this.makeNames()
+    this.shuffleNames()
+  }
+
+  makeNames() {
+    for (const a of makeAlphabetArray()) {
+      for (const b of makeAlphabetArray()) {
+        for (let d = 0; d < 1000; d++) {
+          const digits = `${d}`.padStart(3, '0')
+          this.names.push(`${a}${b}${digits}`)
+        }
+      }
+    }
+  }
+
+  shuffleNames() {
+    for (let i = 0; i < this.names.length; i++) {
+      const r = getRandomArrayIndex(this.names);
+      const t = this.names[r]
+      this.names[r] = this.names[i]
+      this.names[i] = t
+    }
+  }
+
+  get namesRemaining() {
+    return TOTAL_NAMES - this.names.length
+  }
+
+  getName() {
+    return this.names.pop()
+  }
 }
 
-function getRandomName() {
-  return getRandomLetters() + getRandomNumbers()
-}
-
-const nameRegistry = new Set()
-
-function getUniqueName() {
-  let name
-  do {
-    name = getRandomName()
-  } while (nameRegistry.has(name));
-  nameRegistry.add(name)
-  return name
-}
+const nameRegistry = new RobotNameFactory()
 
 export class Robot {
   constructor() {
-    this._name = getUniqueName()
+    this._name = nameRegistry.getName()
   }
 
   get name() {
@@ -45,8 +63,8 @@ export class Robot {
   }
 
   reset() {
-    this._name = getUniqueName()
+    this._name = nameRegistry.getName()
   }
 }
 
-Robot.releaseNames = () => nameRegistry.clear();
+Robot.releaseNames = () => nameRegistry.reset();

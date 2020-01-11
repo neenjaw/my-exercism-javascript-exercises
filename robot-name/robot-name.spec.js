@@ -93,7 +93,7 @@ describe('Robot', () => {
     expect(areSequential(name3, name3)).toBe(true);
   });
 
-  // This test is optional.
+  // This xtest is optional.
   test('all the names can be generated', () => {
     const usedNames = new Set();
     usedNames.add(robot.name);
