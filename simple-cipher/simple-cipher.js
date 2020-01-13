@@ -12,7 +12,7 @@ function generateKey() {
     letters.push(randomLetter())
   }
 
-  return letters.join('')
+  return letters
 }
 
 function shift(letter, shiftLetter, direction = 1) {
@@ -34,8 +34,12 @@ function shift(letter, shiftLetter, direction = 1) {
 }
 
 export class Cipher {
-  constructor(key) {
-    this._key = key || generateKey()
+  constructor(key = generateKey()) {
+    if ((typeof key) == 'string'){
+      key = key.split('')
+    }
+
+    this._key = key
   }
 
   encode(msg) {
@@ -48,7 +52,7 @@ export class Cipher {
 
   shift(msg, direction = 1) {
     const key = this.key
-    const shiftLetter = (l, i) => shift(l, key.charAt(i % key.length), direction)
+    const shiftLetter = (l, i) => shift(l, key[i % key.length], direction)
 
     return msg.split('')
               .map(shiftLetter)
@@ -56,6 +60,6 @@ export class Cipher {
   }
 
   get key() {
-    return (' ' + this._key).slice(1)
+    return this._key.join('')
   }
 }
