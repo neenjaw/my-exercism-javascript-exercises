@@ -1,6 +1,17 @@
 import { WordProblem, ArgumentError } from './wordy';
 
 describe('Word Problem', () => {
+  test('1', () => {
+    const question = 'What is 1?';
+    expect(new WordProblem(question).answer()).toEqual(1);
+  });
+
+  test('my own', () => {
+    const question = 'What is 17 6 plus?';
+    const problem = new WordProblem(question);
+    expect(problem.answer.bind(problem)).toThrow(ArgumentError);
+  });
+
   test('add 1', () => {
     const question = 'What is 1 plus 1?';
     expect(new WordProblem(question).answer()).toEqual(2);
