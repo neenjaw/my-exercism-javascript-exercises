@@ -14,7 +14,9 @@ const dateRangeMap = new Map([
 
 const getDateRange = (year, month, descriptor) => {
   const lastDate = lastDateOfMonth(year, month)
-  return dateRangeMap.get(descriptor)(lastDate)
+  return dateRangeMap
+    .get(descriptor)(lastDate)
+    .map(date => new Date(year, month, date))
 }
 
 const days = "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" ")
@@ -22,11 +24,10 @@ const convertDayToIndex = day => days.findIndex(e => e === day)
 
 export const meetupDay = (year, month, dayOfTheWeek, descriptor) => {
   const dateRange = getDateRange(year, month, descriptor)
-  const matchingDay = convertDayToIndex(dayOfTheWeek)
+  const meetupDay = convertDayToIndex(dayOfTheWeek)
 
-  const meetup = dateRange
-    .map(date => new Date(year, month, date))
-    .find(date => date.getDay() === matchingDay)
+  const meetup =
+    dateRange.find(date => date.getDay() === meetupDay)
 
   if (meetup) return meetup
 
