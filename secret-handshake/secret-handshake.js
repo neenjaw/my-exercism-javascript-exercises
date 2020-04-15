@@ -1,39 +1,31 @@
-const WINK = 0b1
-const DOUBLE_BLINK = 0b10
-const CLOSE_EYES = 0b100
-const JUMP = 0b1000
-const REVERSE = 0b10000
+class Action {
+   constructor(description, code) {
+      this.description = description
+      this.code = code
+   }
+}
 
-export const commands = (code) => {
-  const actions = [
-    WINK,
-    DOUBLE_BLINK,
-    CLOSE_EYES,
-    JUMP,
-  ]
+const actions = [
+  new Action('wink', 0b1),
+  new Action('double blink', 0b10),
+  new Action('close your eyes', 0b100),
+  new Action('jump', 0b1000)
+]
 
+const commands = (code) => {
   const commands = actions
-    .filter(actionCode => checkCode(code, actionCode))
-    .map(actionCode => getAction(actionCode))
+    .filter(checkCode(code))
+    .map(getDescription)
 
-  if (checkCode(code, REVERSE)) commands.reverse()
+  if (checkCode(code)(0b10000)) commands.reverse()
 
   return commands
 }
 
-const checkCode = (code, actionCode) => {
-  return (code & actionCode) !== 0
+const checkCode = (code) => {
+  return (action) => (code & action.code) !== 0
 }
 
-const getAction = (actionCode) => {
-  switch (actionCode) {
-    case WINK:
-      return 'wink'
-    case DOUBLE_BLINK:
-      return 'double blink'
-    case CLOSE_EYES:
-      return 'close your eyes'
-    case JUMP:
-      return 'jump'
-  }
+const getDescription = (action) => {
+  return action.description
 }
